@@ -18,7 +18,7 @@
   {
     "id": 3,
     "title": "USFM to PERF",
-    "name": "usfm2perf",
+    "name": "usfmToPerf",
     "type": "Transform",
     "inputs": [
       {
@@ -42,9 +42,65 @@
   },
   {
     "id": 4,
-    "title": "Simplify PERF",
-    "name": "justTheBible",
+    "title": "Count stripped perf words",
+    "name": "verseWords",
     "type": "Transform",
+    "transformName": "verseWords",
+    "inputs": [
+      {
+        "name": "perf",
+        "type": "json",
+        "source": "Transform 3 perf"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "verseWords",
+        "type": "json"
+      }
+    ],
+    "description": "PERF=>JSON: Counts words occurrences"
+  },
+  {
+    "id": 5,
+    "title": "Strip Alignment",
+    "name": "stripAlignment",
+    "type": "Transform",
+    "transformName": "stripAlignment",
+    "inputs": [
+      {
+        "name": "perf",
+        "type": "json",
+        "source": "Transform 3 perf"
+      },
+      {
+        "name": "verseWords",
+        "type": "json",
+        "source": "Transform 4 verseWords"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "perf",
+        "type": "json"
+      },
+      {
+        "name": "strippedAlignment",
+        "type": "json"
+      },
+      {
+        "name": "unalignedWords",
+        "type": "json"
+      }
+    ],
+    "description": "PERF=>PERF: Strips alignment markup"
+  },
+  {
+    "id": 6,
+    "title": "Merge stripped perf",
+    "name": "mergePerfText",
+    "type": "Transform",
+    "transformName": "mergePerfText",
     "inputs": [
       {
         "name": "perf",
@@ -58,74 +114,27 @@
         "type": "json"
       }
     ],
-    "description": "PERF=>PERF: Strips most markup"
-  },
-  {
-    "id": 7,
-    "title": "Merge PERF text",
-    "name": "mergePerfText",
-    "type": "Transform",
-    "inputs": [
-      {
-        "name": "perf",
-        "type": "json",
-        "source": "Transform 4 perf"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "perf",
-        "type": "json"
-      }
-    ],
     "description": "PERF=>PERF: Merge consecutive text strings"
   },
   {
-    "id": 10,
-    "title": "PERF to USFM",
-    "name": "perf2usfm",
-    "type": "Transform",
-    "inputs": [
-      {
-        "name": "perf",
-        "type": "json",
-        "source": "Transform 7 perf"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "usfm",
-        "type": "text"
-      }
-    ],
-    "description": "PERF=>USFM"
-  },
-  {
-    "id": 5,
-    "title": "Original PERF",
+    "id": 990,
+    "title": "Org Perf",
     "type": "Display",
     "inputType": "json",
     "inputSource": "Transform 3 perf"
   },
   {
-    "id": 6,
-    "title": "Simplified PERF",
-    "type": "Display",
-    "inputType": "text",
-    "inputSource": "Transform 4 perf"
-  },
-  {
-    "id": 8,
-    "title": "Text-Merged PERF",
+    "id": 991,
+    "title": "Stripped Alignments",
     "type": "Display",
     "inputType": "json",
-    "inputSource": "Transform 7 perf"
+    "inputSource": "Transform 5 strippedAlignment"
   },
   {
-    "id": 9,
-    "title": "Simplified USFM",
+    "id": 992,
+    "title": "Unaligned Words",
     "type": "Display",
-    "inputType": "text",
-    "inputSource": "Transform 10 usfm"
+    "inputType": "json",
+    "inputSource": "Transform 5 unalignedWords"
   }
 ]

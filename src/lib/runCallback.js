@@ -138,6 +138,7 @@ const evaluateSpec = async ({specSteps, outputs, proskomma}) => {
                     inputOb[input.name] = input.value;
                 }
                 try {
+                    console.log(inputOb)
                     transformStep.result = await transformStep.code({...inputOb, proskomma});
                 } catch (err) {
                     const errMsg = `Error evaluating Transform ${transformStep.id} (name=${transformStep.name}, type=${typeof transformStep.code}): ${err}`;

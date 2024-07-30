@@ -1,4 +1,4 @@
-import {PerfRenderFromJson, transforms, mergeActions} from 'proskomma-json-tools';
+import {PerfRenderFromJson, render, mergeActions} from 'proskomma-json-tools';
 
 const reportRecordsForCV = function (report, chapter, verses) {
 
@@ -60,13 +60,14 @@ const localmergeReportActions = {
 };
 
 const mergeReportCode = function ({perf, report}) {
-    const cl = new PerfRenderFromJson(
+  const { identityActions } = render.perfToPerf.renderActions;
+  const cl = new PerfRenderFromJson(
         {
             srcJson: perf,
             actions: mergeActions(
                 [
                     localmergeReportActions,
-                    transforms.perf2perf.identityActions
+                    identityActions
                 ]
             )
         }
