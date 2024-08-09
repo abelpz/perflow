@@ -1,5 +1,7 @@
-import { PerfRenderFromJson, transforms, mergeActions } from 'proskomma-json-tools';
+import { PerfRenderFromJson, render, mergeActions } from 'proskomma-json-tools';
 import xre from "xregexp";
+
+const { identityActions } = render.perfToPerf.renderActions;
 
 const lexingRegexes = [
     [
@@ -149,7 +151,7 @@ const mergeMarkupCode = function ({ perf, verseWords: totalOccurrences, stripped
     const cl = new PerfRenderFromJson({
         srcJson: perf,
         actions: mergeActions(
-            [localMergeMarkupActions, transforms.perf2perf.identityActions]
+            [localMergeMarkupActions, identityActions]
         )
     });
     const output = {};

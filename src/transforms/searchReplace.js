@@ -1,6 +1,6 @@
 import {
   PerfRenderFromJson,
-  transforms,
+  render,
   mergeActions,
 } from "proskomma-json-tools";
 
@@ -128,11 +128,12 @@ const searchReplaceActions = {
 };
 
 const searchReplaceCode = function ({ perf, params }) {
+  const { identityActions } = render.perfToPerf.renderActions;
   const cl = new PerfRenderFromJson({
     srcJson: perf,
     actions: mergeActions([
       searchReplaceActions,
-      transforms.perf2perf.identityActions,
+      identityActions,
     ]),
   });
   const output = {};

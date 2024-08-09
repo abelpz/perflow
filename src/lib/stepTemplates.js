@@ -1,9 +1,6 @@
-import usfm2perf from "../transforms/usfm2perf";
 import usx2perf from "../transforms/usx2perf";
-import perf2usfm from "../transforms/perf2usfm";
 import wordFrequency from "../transforms/wordFrequency";
 import wordSearch from "../transforms/wordSearch";
-import justTheBible from "../transforms/justTheBible";
 import verseStats from "../transforms/verseStats";
 import proskommaQuery from "../transforms/proskommaQuery";
 import lightRegex from "../transforms/lightRegex";
@@ -11,7 +8,6 @@ import regex from "../transforms/regex";
 import validate from "../transforms/validate";
 import diffText from "../transforms/diffText";
 import diffJson from "../transforms/diffJson";
-import mergePerfText from "../transforms/mergePerfText";
 import identity from "../transforms/identity";
 import searchRegexGen from "../transforms/searchRegexGen";
 import longVerses1 from "../transforms/longVerses1";
@@ -19,17 +15,22 @@ import mergeReport from "../transforms/mergeReport";
 import uniqueWords from "../transforms/uniqueWords";
 import remoteTransform from "../transforms/remoteTransform";
 import stripMarkup from "../transforms/stripMarkup";
-import verseWords from "../transforms/verseWords";
 import mergeMarkup from "../transforms/mergeMarkup";
 import prepareJsonDiff from "../transforms/prepareJsonDiff";
 import uniqueWordsVerses from "../transforms/uniqueWordsVerses";
 import searchReplace from "../transforms/searchReplace";
 import perf2PkJson from "../transforms/perf2PkJson";
-import calculateUsfmChapterPositions from "../transforms/calculateUsfmChapterPositions";
+
+import { render } from 'proskomma-json-tools';
+
+const { stripAlignment, mergeAlignment, verseWords } = render.alignment.transforms;
+const { mergePerfText, justTheBible, stripUwAlignment, mergeUwAlignment } = render.perfToPerf.transforms;
+const { calculateUsfmChapterPositions, perfToUsfm, perfToUsfmJs, wordCount } = render.perfToX.transforms;
+const { usfmToPerf } = render.xToPerf.transforms;
 
 const stepTemplates = {
   Transform: {
-    usfm2perf,
+    usfmToPerf,
     usx2perf,
     proskommaQuery,
     validate,
@@ -38,10 +39,15 @@ const stepTemplates = {
     identity,
     justTheBible,
     mergePerfText,
+    stripUwAlignment,
+    mergeUwAlignment,
     wordFrequency,
     wordSearch,
     verseStats,
-    perf2usfm,
+    calculateUsfmChapterPositions, 
+    perfToUsfm, 
+    perfToUsfmJs, 
+    wordCount,
     searchRegexGen,
     longVerses1,
     mergeReport,
@@ -50,12 +56,13 @@ const stepTemplates = {
     stripMarkup,
     verseWords,
     mergeMarkup,
+    stripAlignment,
+    mergeAlignment,
     prepareJsonDiff,
     uniqueWordsVerses,
     lightRegex,
     regex,
     perf2PkJson,
-    calculateUsfmChapterPositions,
     searchReplace,
   },
   Source: {

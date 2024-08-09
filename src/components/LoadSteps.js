@@ -33,6 +33,7 @@ function LoadSteps({setSpecSteps, setNextStepId}) {
         const reader = new FileReader();
         reader.addEventListener('load', (event) => {
             const loadedJson = JSON.parse(event.target.result);
+            console.log(loadedJson)
             loadedJson
                 .filter(st => st.type === "Transform")
                 .forEach(
